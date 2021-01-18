@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"text/template"
 
-	"github.com/site/db"
 	"github.com/site/domain/product"
+	infra "github.com/site/infra/product"
 	_ "gorm.io/driver/sqlserver"
 	_ "gorm.io/gorm"
 )
@@ -19,9 +19,9 @@ func main() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	dbs := db.GetDatabase()
-	repo := db.NewProductSQL(dbs)
-	service := product.NewService()
+	dbs := infra.GetDatabase()
+	repo := infra.NewProductSQL(dbs)
+	service := product.NewService(repo)
 	produtos := service.Buscar(0)
 
 	fmt.Println(produtos)
